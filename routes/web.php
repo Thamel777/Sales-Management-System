@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -13,6 +14,22 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/admin.dashboard', function () {
+        if (Auth::user()->role === 'admin') {
+            return Inertia::render('admin/Dashboard'); // Assuming your admin dashboard is located in resources/js/pages/admin/Dashboard.jsx
+        }
+    })->name('admin.dashboard');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/agent.dashboard', function () {
+        if (Auth::user()->role === 'agent') {
+            return Inertia::render('agent/Dashboard'); 
+        }
+    })->name('agent.dashboard');
 });
 
 Route::get('/dashboard', function () {
@@ -26,6 +43,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-
-route::get('admin/dashboard', [HomeController::class,'admin']);
-route::get('agent/dashboard', [HomeController::class,'agent']);
