@@ -22,6 +22,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return Inertia::render('admin/Dashboard'); // Assuming your admin dashboard is located in resources/js/pages/admin/Dashboard.jsx
         }
     })->name('admin/dashboard');
+
+    Route::get('/CustomerList', [CustomerController::class, 'index'])->name('CustomerList.index');
+    Route::get('/AddCustomer', [CustomerController::class, 'create'])->name('AddCustomer.create');
+    Route::post('/AddCustomer.create', [CustomerController::class, 'store'])->name('AddCustomer.store');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -42,11 +46,5 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-
-Route::get('CustomerList', [CustomerController::class, 'index'])->name('CustomerList');
-Route::get('AddCustomer', [CustomerController::class, 'create'])->name('AddCustomer');
-Route::post('CustomerList', [CustomerController::class, 'store']);
-
 
 require __DIR__.'/auth.php';
