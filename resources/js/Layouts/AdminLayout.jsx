@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import SideNavLink from '@/Components/SideNavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link } from '@inertiajs/react';
 
-export default function Authenticated({ user, header, children }) {
+export default function AdminLayout({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const [showCustomersDropdown, setShowCustomersDropdown] = useState(false);
     const [showAdminsDropdown, setShowAdminsDropdown] = useState(false);
@@ -132,8 +130,8 @@ export default function Authenticated({ user, header, children }) {
                             </button>
                             {showCustomersDropdown && (
                                 <div className="ml-4 space-y-2">
-                                    <SideNavLink href='CustomerList'>View Customers</SideNavLink>
-                                    <SideNavLink href='AddCustomer'>Add Customers</SideNavLink>
+                                    <SideNavLink href={route("CustomerList.index")}>View Customers</SideNavLink>
+                                    <SideNavLink href={route("AddCustomer.create")}>Add Customers</SideNavLink>
                                 </div>
                             )}
                         </div>
